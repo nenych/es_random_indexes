@@ -4,6 +4,8 @@ name: Release
 # events but only for the master branch
 on:
   push:
+    branches: 
+      - "master"
     # Sequence of patterns matched against refs/tags
     tags:
     - 'v*'
@@ -22,12 +24,15 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Show the environment
-      run: env
-
+      run: |
+        env
+        ls -al
     - name: Build the image
       run: |
         go1.14.2 get
         go1.14.2 build
+    - name: Build the image
+      run: tar zcf ${APPLICATION_ARTIFACT}.tar.gz ${APPLICATION_ARTIFACT}
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -45,6 +50,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} 
-        asset_path: ./${{env.APPLICATION_ARTIFACT}}
+        asset_path: ./${{env.APPLICATION_ARTIFACT}}.tar.gz
         asset_name: ${{env.APPLICATION_ARTIFACT}}
         asset_content_type: application/zip
