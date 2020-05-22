@@ -5,7 +5,7 @@ name: Release
 on:
   push:
     branches: 
-      - "master"
+      - "setup-ci"
     # Sequence of patterns matched against refs/tags
     tags:
     - 'v*'
@@ -27,11 +27,15 @@ jobs:
       run: |
         env
         ls -al
+    - name: Set up Go
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.14
     - name: Build the image
       run: |
-        go1.14.2 get
-        go1.14.2 build
-    - name: Build the image
+        go get
+        go build
+    - name: Create artifact tar.gz
       run: tar zcf ${APPLICATION_ARTIFACT}.tar.gz ${APPLICATION_ARTIFACT}
     - name: Create Release
       id: create_release
