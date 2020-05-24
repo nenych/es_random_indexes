@@ -8,7 +8,7 @@ on:
       - "setup-ci"
     # Sequence of patterns matched against refs/tags
     tags:
-    - 'v*'
+      - 'v*'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -55,5 +55,5 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} 
         asset_path: ./${{env.APPLICATION_ARTIFACT}}.tar.gz
-        asset_name: ${{env.APPLICATION_ARTIFACT}}
+        asset_name: ${{env.APPLICATION_ARTIFACT}}.tar.gz
         asset_content_type: application/zip
